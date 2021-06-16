@@ -1,7 +1,21 @@
 import React from "react";
 
-function Profile() {
-  return <div>Hello Kolawole</div>;
-}
+const Profile = () => {
+  return (
+    <div className="w-full h-screen">
+      <div className="w-full p-6">
+        <button
+          type="submit"
+          className="rounded p-2 w-32 bg-red-700 text-white"
+        >
+          Deconnexion
+        </button>
+      </div>
+      <div className="w-full h-full text-center items-center">
+        <p className="self-center my-auto">Hello, Kolawole</p>
+      </div>
+    </div>
+  );
+};
 
 export default Profile;

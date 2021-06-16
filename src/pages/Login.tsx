@@ -1,18 +1,16 @@
 import React from "react";
 
 function Login() {
-
   const handleLogin = (email: string, password: string) => {
     console.log(email, password);
-  }
+  };
 
-  const handleFormSubmit = (e:any) => {
+  const handleFormSubmit = (e: any) => {
     e.preventDefault();
 
     let email = e.target.email?.value;
     let password = e.target.element.password?.value;
-
-  }
+  };
 
   const classes = {
     pageBody: "h-screen flex bg-gray-bg1",
