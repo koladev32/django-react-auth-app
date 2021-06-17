@@ -5,4 +5,6 @@ export interface AccountResponse {
   is_active: boolean;
   created: Date;
   updated: Date;
+  access: string;
+  refresh: string;
 }

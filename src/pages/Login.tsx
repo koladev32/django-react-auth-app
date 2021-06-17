@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import authSlice from "../store/slices/auth";
+import axios from "axios";
+import { useHistory } from "react-router";
 
 function Login() {
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const handleLogin = (email: string, password: string) => {
-    console.log(email, password);
+    axios
+      .post("login", { email, password })
+      .then((res) => {
+        dispatch(
+          authSlice.actions.setAuthTokens({
+            token: res.access,
+            refreshToken: data.refresh,
+          })
+        );
+        setLoading(false);
+        history.push("/");
+      })
+      .catch((err) => {
+        setMessage(err.response.data.detail.toString());
+      });
   };
 
   const handleFormSubmit = (e: any) => {
@@ -10,6 +35,8 @@ function Login() {
 
     let email = e.target.email?.value;
     let password = e.target.element.password?.value;
+    setLoading(true);
+    handleLogin(email, password);
   };
 
   const classes = {
