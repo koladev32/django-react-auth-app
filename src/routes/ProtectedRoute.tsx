@@ -1,10 +1,10 @@
 import React from "react";
-import { Redirect, Route, RouteComponentProps } from "react-router";
+import { Redirect, Route, RouteProps } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-const ProtectedRoute = (props: any) => {
-  //TODO : fix
+
+const ProtectedRoute = (props: RouteProps) => {
   const auth = useSelector((state: RootState) => state.auth);
 
   if (auth.account) {
