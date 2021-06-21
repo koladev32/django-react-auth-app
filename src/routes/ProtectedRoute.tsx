@@ -5,10 +5,10 @@ import { RootState } from "../store";
 
 const ProtectedRoute = (props: RouteProps) => {
   const auth = useSelector((state: RootState) => state.auth);
-  console.log(props)
+
   if (auth.account) {
-    if (props.path === '/login'){
-      return <Redirect to={"/"} />
+    if (props.path === "/login") {
+      return <Redirect to={"/"} />;
     }
     return <Route {...props} />;
   } else if (!auth.account) {

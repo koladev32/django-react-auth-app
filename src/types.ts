@@ -1,5 +1,5 @@
 export interface AccountResponse {
-  user : {
+  user: {
     id: string;
     email: string;
     username: string;
