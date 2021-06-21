@@ -13,9 +13,9 @@ export default function App() {
         <Router>
           <div>
             <Switch>
-              <Route path="/login">
+              <ProtectedRoute path="/login">
                 <Login />
-              </Route>
+              </ProtectedRoute>
               <ProtectedRoute exact path="/" component={Profile} />
             </Switch>
           </div>

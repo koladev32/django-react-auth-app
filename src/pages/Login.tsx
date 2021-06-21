@@ -14,13 +14,16 @@ function Login() {
 
   const handleLogin = (email: string, password: string) => {
     axios
-      .post("login", { email, password })
+      .post(`${process.env.REACT_APP_API_URL}/auth/login/`, { email, password })
       .then((res) => {
         dispatch(
           authSlice.actions.setAuthTokens({
-            token: res.access,
-            refreshToken: data.refresh,
+            token: res.data.access,
+            refreshToken: res.data.refresh,
           })
+        );
+        dispatch(
+            authSlice.actions.setAccount(res.data.user)
         );
         setLoading(false);
         history.push("/");
@@ -30,14 +33,19 @@ function Login() {
       });
   };
 
-  const handleFormSubmit = (e: any) => {
-    e.preventDefault();
-
-    let email = e.target.email?.value;
-    let password = e.target.element.password?.value;
-    setLoading(true);
-    handleLogin(email, password);
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      handleLogin(values.email, values.password);
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().trim().required("Le nom d'utilisateur est requis"),
+      password: Yup.string().trim().required("Le mot de passe est requis"),
+    }),
+  });
 
   const classes = {
     pageBody: "h-screen flex bg-gray-bg1",
@@ -51,8 +59,7 @@ function Login() {
     <div className={classes.pageBody}>
       <div className={classes.formContainer}>
         <h1 className={classes.formHeading}>Log in to your account 🔐</h1>
-
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <div className="space-y-4">
             <input
               className="border-b border-gray-300 w-full px-2 h-8 rounded focus:border-blue-500"
@@ -60,14 +67,29 @@ function Login() {
               type="email"
               placeholder="Email"
               name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.email ? (
+              <div>{formik.errors.email} </div>
+            ) : null}
             <input
               className="border-b border-gray-300 w-full px-2 h-8 rounded focus:border-blue-500"
               id="password"
               type="password"
               placeholder="Password"
               name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.password ? (
+              <div>{formik.errors.password} </div>
+            ) : null}
+          </div>
+          <div className="text-danger text-center my-2" hidden={false}>
+            {message}
           </div>
 
           <div className={classes.btnContainer}>
