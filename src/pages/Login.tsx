@@ -24,7 +24,9 @@ function Login() {
         );
         dispatch(authSlice.actions.setAccount(res.data.user));
         setLoading(false);
-        history.push("/");
+        history.push("/", {
+          userId: res.data.id
+        });
       })
       .catch((err) => {
         setMessage(err.response.data.detail.toString());

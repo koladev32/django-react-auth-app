@@ -1,11 +1,24 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import {useHistory, useLocation} from "react-router";
 import authSlice from "../store/slices/auth";
+import useSWR from 'swr';
+import {fetcher} from "../utils/axios";
+import {UserResponse} from "../utils/types";
+
+interface LocationState {
+    userId: string;
+}
+
 
 const Profile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { state } = useLocation<LocationState>();
+
+  const userId = state.userId;
+
+  const user = useSWR<UserResponse>(`user/${userId}/`, fetcher)
 
   const handleLogout = () => {
     dispatch(authSlice.actions.setLogout());
@@ -21,9 +34,14 @@ const Profile = () => {
           Deconnexion
         </button>
       </div>
-      <div className="w-full h-full text-center items-center">
-        <p className="self-center my-auto">Welcome</p>
-      </div>
+        {
+            user.data ?
+                <div className="w-full h-full text-center items-center">
+                    <p className="self-center my-auto">Welcome</p>
+                </div>
+                :
+                <p className="text-center items-center">Loading ...</p>
+        }
     </div>
   );
 };

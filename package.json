@@ -18,6 +18,7 @@
     "@types/redux-persist": "^4.3.1",
     "@types/yup": "^0.29.11",
     "axios": "^0.21.1",
+    "axios-auth-refresh": "^3.2.1",
     "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -26,6 +27,7 @@
     "react-scripts": "4.0.3",
     "redux": "^4.1.0",
     "redux-persist": "^6.0.0",
+    "swr": "^1.0.1",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.9"
