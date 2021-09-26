@@ -4,4 +4,5 @@ export interface UserResponse {
     is_active: string;
     created: Date;
     updated: Date;
+    id: string;
 }

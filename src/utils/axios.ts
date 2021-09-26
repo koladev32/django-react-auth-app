@@ -4,7 +4,7 @@ import store from '../store';
 import authSlice from '../store/slices/auth';
 
 const axiosService = axios.create({
-    baseURL: 'http://localhost:8000/api/v1/',
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -15,6 +15,7 @@ axiosService.interceptors.request.use(async (config) => {
 
     if (token !== null) {
         config.headers.Authorization = 'Bearer ' + token;
+        // @ts-ignore
         console.debug('[Request]', config.baseURL + config.url, JSON.stringify(token));
     }
     return config;
@@ -22,6 +23,7 @@ axiosService.interceptors.request.use(async (config) => {
 
 axiosService.interceptors.response.use(
     (res) => {
+        // @ts-ignore
         console.debug('[Response]', res.config.baseURL + res.config.url, res.status, res.data);
         return Promise.resolve(res);
     },
@@ -36,6 +38,7 @@ axiosService.interceptors.response.use(
     }
 );
 
+// @ts-ignore
 const refreshAuthLogic = async (failedRequest) => {
     const { refreshToken } = store.getState().auth;
     if (refreshToken !== null) {
@@ -46,7 +49,7 @@ const refreshAuthLogic = async (failedRequest) => {
                     refresh: refreshToken,
                 },
                 {
-                    baseURL: 'http://localhost:8000/api/v1/',
+                    baseURL: process.env.REACT_APP_API_URL
                 }
             )
             .then((resp) => {
